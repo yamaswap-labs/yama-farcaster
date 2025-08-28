@@ -1,0 +1,25 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEwOTc4NzQsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHhCRTczMTZlZWYxOTBmNWNBQmEyZDA2YkY4NmU0NzhlNDMyODRGMDBEIn0",
+    "payload": "eyJkb21haW4iOiI3Y2IzNjZmOWI5NmIubmdyb2stZnJlZS5hcHAifQ",
+    "signature": "MHhlMTAzY2Q1OGRjM2ZhYWVjZGNhZjBjZGIwZGZjYjYyNTk4NzcwNjdmMzkyZWM2NDY1OWM0MmQwN2FjNWEyNDQyMWY1Njk5NTJiOTY2Y2VmMzc2NTZkOGE0NWQyYzE1NTU2MjEzMmQ0YTM2MDM3NjZiZmY4ZjkyZDhmNTE3YTI1ODFi"
+  },
+  "frame": {
+    "version": "1",
+    "name": "Your App name",
+    "subtitle": "Welcome to Your App name!",
+    "iconUrl": "https://4e3b2c8455a5.ngrok-free.app/logo.jpg",
+    "homeUrl": "https://4e3b2c8455a5.ngrok-free.app",
+    "splashImageUrl": "https://4e3b2c8455a5.ngrok-free.app/logo.jpg",
+    "splashBackgroundColor": "#171717",
+    "primaryCategory": "finance",
+    "requiredChains": [
+      "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+    ],
+    "requiredCapabilities": [
+      "actions.signIn",
+      "wallet.getSolanaProvider"
+    ],
+    "heroImageUrl": "https://rewards.warpcast.com/og.png"
+  }
+}

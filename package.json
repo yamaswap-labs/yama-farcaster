@@ -1,0 +1,34 @@
+{
+	"name": "yama-miniapp-starter",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"generate:farcaster": "node scripts/generate-farcaster-json.cjs",
+		"dev": "NODE_ENV=development pnpm run generate:farcaster && next dev --port 3000",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint"
+	},
+	"dependencies": {
+		"@farcaster/miniapp-sdk": "^0.1.9",
+		"dotenv": "^17.2.1",
+		"frames.js": "^0.22.0",
+		"next": "15.5.0",
+		"postcss": "^8.5.6",
+		"react": "19.1.0",
+		"react-dom": "19.1.0"
+	},
+	"devDependencies": {
+		"@eslint/eslintrc": "^3",
+		"@tailwindcss/postcss": "^4.1.12",
+		"@types/node": "^20",
+		"@types/react": "^19",
+		"@types/react-dom": "^19",
+		"eslint": "^9",
+		"eslint-config-next": "15.5.0",
+		"prettier": "^3.6.2",
+		"prettier-plugin-tailwindcss": "^0.6.14",
+		"tailwindcss": "^4.1.12",
+		"typescript": "^5"
+	}
+}
