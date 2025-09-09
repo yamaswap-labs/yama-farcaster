@@ -5,6 +5,12 @@ import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import './globals.css';
+import { UiLayout } from '@/components/ui/ui-layout';
+import { generateAppMetadata } from './metadata';
+import { ThemeProvider } from '@/components/theme-provider';
+import { ReactQueryProvider } from './react-query-provider';
+import { SolanaProvider } from '@/components/solana/solana-provider';
+import { ClusterProvider } from '@/components/cluster/cluster-data-access';
 
 // const geistSans = Geist({
 // 	variable: '--font-geist-sans',
@@ -16,37 +22,27 @@ import './globals.css';
 // 	subsets: ['latin'],
 // });
 
-export async function generateMetadata(): Promise<Metadata> {
-	const metadata: Metadata = {
-		title: 'Your Page Name',
-		description: 'Your Page Description',
-	};
-
-	const frameUrl = `${APP_BASE_URL}`;
-
-	const frameMetadata = await generateFrameMetadata({
-		name: metadata.title as string,
-		title: metadata.title as string,
-		url: frameUrl,
-		description: metadata.description as string,
-		imageUrl: `${frameUrl}/opengraph-image`,
-		launchButtonName: 'Launch App',
-	});
-
-	return {
-		...metadata,
-		...frameMetadata,
-	};
-}
+export const metadata = generateAppMetadata();
 
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+
 	return (
 		<html lang='en'>
-			<body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>{children}</body>
+			<body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+				<ReactQueryProvider>
+					<ClusterProvider>
+						<SolanaProvider>
+							<ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
+								<UiLayout>{children}</UiLayout>
+							</ThemeProvider>
+						</SolanaProvider>
+					</ClusterProvider>
+				</ReactQueryProvider>
+			</body>
 		</html>
 	);
 }
