@@ -41,11 +41,11 @@ export const NetButton = () => {
     return (
         <div className={'dropdown dropdown-end'}>
 
-            <div tabIndex={0} role="button" className="relative size-4">
+            <div tabIndex={0} role="button" className="relative size-6">
                 <Image fill src={networkIcons[selected]} alt={selected} />
             </div>
 
-            <ul tabIndex={0} className="z-1 dropdown-content menu w-52 rounded-18px p-2 shadow-sm">
+            <ul tabIndex={0} className="z-1 dropdown-content menu w-52 rounded-18px p-2 shadow-sm bg-black">
                 <li className="menu-title font-normal text-zinc-400">Select a network</li>
                 {NetConfig.map((item) => (
                     <li key={item.value}>

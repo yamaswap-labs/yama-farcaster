@@ -24,10 +24,6 @@ export default function AppNav() {
                     <UnifiedWalletButton />
                 </div>
             </div>
-
-            {/* <div className="sm:hidden">
-        <NavMenuDock selectedKey={currRouteTab} setTabKey={setTabKey} />
-      </div> */}
         </>
     );
 }
