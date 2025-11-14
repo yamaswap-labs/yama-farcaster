@@ -1,6 +1,6 @@
 'use client';
 
-import { LoginOrRegisterResp } from '@/app/api/login-or-register/route';
+import { LoginOrRegisterResp } from '@/api/login-or-register/route';
 import { useAnchorProvider } from '@/components/solana/solana-provider';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Notification } from '@/components/ui/notification';
@@ -12,10 +12,10 @@ import { APP_ROUTES_MAP } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 import useLoginStore from '@/store/useLoginStore';
 import * as anchor from '@coral-xyz/anchor';
-// import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 // import { ConnectButton as RainbowConnectButton } from '@rainbow-me/rainbowkit';
 import { WalletName } from '@solana/wallet-adapter-base';
-// import { PhantomWalletName } from '@solana/wallet-adapter-phantom';
+import { PhantomWalletName } from '@solana/wallet-adapter-phantom';
 import { useWallet, WalletNotSelectedError } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
@@ -276,7 +276,7 @@ export function UnifiedWalletButton() {
              * mini app environment
              */
             // use mini app API to detect wallet
-            if (fc?.request) {
+            if (typeof fc !== 'undefined' && typeof fc.request === 'function') {
                 const installedWallets = await fc.request({
                     method: 'wallet_getInstalled'
                 });
@@ -359,7 +359,7 @@ export function UnifiedWalletButton() {
 
     const handleConnectWallet = async (walletId: string) => {
         // current walllet options
-        const wallet = wallets.find((w) => w.id === walletId);
+        const wallet = wallets.find((w: any) => w.id === walletId);
 
         if (!wallet) return;
 
@@ -368,7 +368,7 @@ export function UnifiedWalletButton() {
             /**
              * mini app environment
              */
-            if (fc?.request) {
+            if (typeof fc !== 'undefined' && typeof fc.request === 'function') {
                 // 使用小程序打开下载链接
                 fc.request({
                     method: 'openUrl',
@@ -391,11 +391,12 @@ export function UnifiedWalletButton() {
             return;
         }
 
+        // installed
         try {
             /**
              * mini app environment
              */
-            if (fc?.request) {
+            if (typeof fc !== 'undefined' && typeof fc.request === 'function') {
                 // solana
                 if (net === Net.Solana) {
                     // okx
@@ -437,6 +438,7 @@ export function UnifiedWalletButton() {
                 // okx wallet & solana
                 // logic to handling okx wallet remains the same
                 if (wallet.id === 'okx' && net === Net.Solana) {
+                    // console.log("------okx------");
                     if (typeof window !== 'undefined' && window?.okxwallet?.solana) {
                         try {
                             // connect okx wallet
@@ -466,12 +468,21 @@ export function UnifiedWalletButton() {
                 // (other wallets only for solana || for both) & solana
                 // simplify the process on wallet connection
                 else if ((wallet.type === 'solana' || wallet.type === 'both') && net === Net.Solana) {
-                    // select wallet adapter by current wallet id
-                    // - initialize the wallet adapter
-                    // - set the adapter current wallet
-                    // - prepare the environment for connection
-                    await solanaWallet.select(wallet.id as WalletName);
-                    await solanaWallet.connect();
+                    // console.log("-------solana------");
+                    const validWalletName = wallet.id as WalletName;
+
+                    await solanaWallet.disconnect();
+                    validWalletName === 'phantom'
+                        ? await solanaWallet.select(PhantomWalletName)
+                        : await solanaWallet.select(validWalletName);
+
+                    const timeoutPromise = new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error('Connection timeout')), 5000),
+                    );
+
+                    await Promise.race([solanaWallet.connect(), timeoutPromise]);
+
+                    await initializeProgram();
                 }
 
                 /**
@@ -559,7 +570,7 @@ export function UnifiedWalletButton() {
                     </div>
                     <ul
                         tabIndex={0}
-                        className="dropdown-content menu z-50 w-52 gap-2 rounded-box p-2 shadow-sm"
+                        className="dropdown-content menu z-50 w-52 gap-2 rounded-box p-2 shadow-sm bg-black"
                     >
                         <li>
                             <Link
@@ -620,7 +631,10 @@ export function UnifiedWalletButton() {
 
             {/* connect wallet dialog */}
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogContent className="h-[353px] w-[360px] rounded-[18px] border border-[#FFFFFF66] bg-[#FFFFFF0D] p-0 backdrop-blur-[32px]">
+                <DialogContent className="h-[353px] w-[315px] rounded-[18px] border border-[#FFFFFF66] bg-[#FFFFFF0D] p-0 backdrop-blur-[32px]">
+                    <VisuallyHidden>
+                        <DialogTitle></DialogTitle>
+                    </VisuallyHidden>
                     <div className="relative flex flex-col gap-[16px] p-[20px]">
                         <button
                             onClick={() => setIsOpen(false)}
@@ -633,10 +647,10 @@ export function UnifiedWalletButton() {
                         </h2>
 
                         <div className="flex flex-col gap-[10px]">
-                            {getCurrentWallets().map((wallet) => (
+                            {getCurrentWallets().map((wallet: any) => (
                                 <button
                                     key={wallet.id}
-                                    className="flex h-[40px] w-[320px] items-center justify-between rounded-[8px] border border-[#FFFFFF33] px-[10px] py-[6px] transition-colors hover:bg-[#FFFFFF1A]"
+                                    className="flex h-[40px] w-[275px] items-center justify-between rounded-[8px] border border-[#FFFFFF33] px-[10px] py-[6px] transition-colors hover:bg-[#FFFFFF1A]"
                                     onClick={() => handleConnectWallet(wallet.id)}
                                 >
                                     <span className="font-[PingFang SC] text-[14px] font-medium leading-[22px] tracking-[0%] text-white">

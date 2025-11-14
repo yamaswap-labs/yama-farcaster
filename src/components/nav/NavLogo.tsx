@@ -9,7 +9,7 @@ export const NavLogo = () => {
         alt="logo"
         width={21}
         height={21}
-        className="size-6 sm:size-7 md:size-8 m-[4px]"
+        className="size-6 sm:size-7 md:size-8 mx-[4px]"
       />
       <span className="text-white font-bold">YAMASWAP</span>
     </>

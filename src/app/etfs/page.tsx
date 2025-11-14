@@ -4,6 +4,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 import { useEffect, useState } from 'react';
 import '../../app/globals.css';
 import ClientInitializer from '@/components/client-initializer';
+import ETFsListFeature from '@/components/etfs-list/etfs-list-feature';
 
 export default function App() {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -19,13 +20,5 @@ export default function App() {
 		}
 	}, [isLoaded]);
 
-	return (
-		<ClientInitializer>
-			<div className='mx-auto flex flex-col items-center px-4'>
-				<main>
-					<div>ETFs page</div>
-				</main>
-			</div>
-		</ClientInitializer>
-	);
+	return <ETFsListFeature />;
 }

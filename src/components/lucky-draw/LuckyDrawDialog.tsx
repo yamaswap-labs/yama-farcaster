@@ -154,12 +154,13 @@ const LuckyDrawDialog = () => {
         </button>
       </DialogTrigger>
 
-      <DialogContent className="w-[400px]" onPointerDownOutside={(e: any) => e.preventDefault()}>
+      <DialogContent className="w-[315px] border-[1px] border-[rgba(255,255,255,0.4)] rounded-[18px] gap-[10px]" onPointerDownOutside={(e: any) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle>{'Lucky Draw Wheel'}</DialogTitle>
+          <DialogTitle className="text-[18px] leading-[24px] px-1">{'Win USDC in a lucky draw'}</DialogTitle>
         </DialogHeader>
 
-        <div className="w-[290px] h-[290px] mt-[18px] mx-auto relative">
+        <div className="w-[282px] h-[287px] relative mt-[8px] mx-auto">
+          {/* back wheel */}
           <Image
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             src={'/lucky-wheel-back.png'}
@@ -167,6 +168,7 @@ const LuckyDrawDialog = () => {
             width={284}
             height={284}
           />
+          {/* front wheel to spin */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[197px] h-[197px]">
             <Image
               className="w-full h-full"
@@ -207,8 +209,8 @@ const LuckyDrawDialog = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center">
-          <div className="flex justify-center items-center text-xs text-text pb-3 pt-[10px] gap-[10px]">
+        <div className="flex flex-col items-center relative b-[10px]">
+          <div className="flex justify-center items-center text-xs text-text pb-[10px] gap-[10px]">
             <div className="flex space-x-1">
               <span>{`Remaining points:`}</span>
               <WithSkeleton loading={isUserInfoLoading} className="w-14 h-[22px]">
@@ -240,7 +242,7 @@ const LuckyDrawDialog = () => {
           <Button
             size={'sm'}
             variant={'outline'}
-            className={`w-full transition-all duration-300 ease-linear ${pointsExhausted ? 'h-9 opacity-100' : 'h-0 opacity-0'
+            className={`w-[275px] h-14 bg-[rgba(255,255,255,0.1)] pl-[37px] pr-[37px] whitespace-normal transition-all duration-300 ease-linear ${true ? '' : 'h-0 opacity-0'
               }`}
             onClick={() => {
               hide();
